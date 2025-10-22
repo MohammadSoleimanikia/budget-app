@@ -1,35 +1,25 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import BudgetCard from "./components/BudgetCard";
 
 function App() {
-  const [count, setCount] = useState(0)
+    return (
+        <div className="container mx-auto border-t border-t-red-700">
+            <header className="flex justify-between my-10">
+                <h1 className="font-bold text-3xl">مدیریت بودجه</h1>
+                <div className=" flex gap-3">
+                    <button className=" bg-blue-500 text-white  hover:bg-blue-600">
+                        افزدون هزینه
+                    </button>
+                    <button className=" border-blue-600 text-blue-700 hover:bg-blue-500 hover:text-white ">
+                        افزودن بودجه
+                    </button>
+                </div>
+            </header>
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+            <main className="grid gap-5 sm:grid-cols-1 items-start  md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 ">
+                <BudgetCard name="تفریح" amount={52} max={300}/>
+            </main>
+        </div>
+    );
 }
 
-export default App
+export default App;
