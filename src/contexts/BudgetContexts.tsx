@@ -1,7 +1,9 @@
 import type React from "react";
-import { createContext, useContext, useState } from "react";
+import { createContext } from "react";
 // used for add unique ID
 import { v4 as uuidV4 } from "uuid";
+// import custom hook to use local storage
+import useLocalStorage from "../hooks/useLocalStrage";
 
 // types
 type Budget = {
@@ -18,17 +20,17 @@ type Expense = {
 };
 
 const BudgetContext = createContext({});
-export function useBudgets() {
-    return useContext(BudgetContext);
-}
+// export function useBudgets() {
+//     return useContext(BudgetContext);
+// }
 
 export const BudgetsProvider = ({
     children,
 }: {
     children: React.ReactNode;
 }) => {
-    const [budgets, setBudgets] = useState<Budget[]>([]);
-    const [expenses, setExpenses] = useState<Expense[]>([]);
+    const [budgets, setBudgets] = useLocalStorage<Budget[]>("budgets", []);
+    const [expenses, setExpenses] = useLocalStorage<Expense[]>("expenses", []);
 
     // get expenses related to specific budget
     function getBudgetExpenses(budgetId: string) {
@@ -57,7 +59,7 @@ export const BudgetsProvider = ({
     }
 
     function deleteBudget(id: string) {
-      // TODO : Deal with expenses.
+        // TODO : Deal with expenses.
         setBudgets((prevBudget) => {
             return prevBudget.filter((budget) => budget.id !== id);
         });
@@ -65,7 +67,7 @@ export const BudgetsProvider = ({
 
     function deleteExpense(id: string) {
         setExpenses((prevExpenses) => {
-          return prevExpenses.filter((expense)=>expense.id!==id)
+            return prevExpenses.filter((expense) => expense.id !== id);
         });
     }
 
