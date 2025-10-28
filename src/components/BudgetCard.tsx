@@ -1,5 +1,6 @@
 import { currencyFormatter } from "../utils";
 import ProgressBar from "./ProgressBar";
+import Button from "./ui/Button";
 type BudgetCardProps = {
     name: string;
     amount: number;
@@ -16,19 +17,19 @@ export default function BudgetCard({ name, amount, max }: BudgetCardProps) {
                         تومان{currencyFormatter.format(max)} /
                     </span>
                     <span className="font-medium ">
-                        تومان{currencyFormatter.format(amount)}
+                        تومان {currencyFormatter.format(amount)}
                     </span>
                 </p>
             </div>
             {/* progress bar */}
             <ProgressBar progress={progress}/>
             <div className="flex justify-center gap-3 ">
-                <button className="  text-blue-500 hover:text-white hover:bg-blue-500">
+                <Button variant="outline">
                     افزودن هزینه{" "}
-                </button>
-                <button className=" text-gray-500 hover:bg-gray-500 hover:text-white">
+                </Button>
+                <Button variant="outlineSecondary">
                     نمایش هزینه ها{" "}
-                </button>
+                </Button>
             </div>
         </div>
     );
