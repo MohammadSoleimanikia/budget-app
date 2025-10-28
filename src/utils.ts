@@ -1,3 +1,4 @@
+// to format currency 
 export const currencyFormatter = new Intl.NumberFormat("fa-IR", {
   style: "decimal",
   currency: "IRR",

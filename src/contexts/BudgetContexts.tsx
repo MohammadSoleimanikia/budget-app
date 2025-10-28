@@ -1,9 +1,9 @@
 import type React from "react";
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 // used for add unique ID
 import { v4 as uuidV4 } from "uuid";
 // import custom hook to use local storage
-import useLocalStorage from "../hooks/useLocalStrage";
+import useLocalStorage from "@/hooks/useLocalStorage";
 
 // types
 type Budget = {
@@ -19,10 +19,17 @@ type Expense = {
     description: string;
 };
 
-const BudgetContext = createContext({});
-// export function useBudgets() {
-//     return useContext(BudgetContext);
-// }
+type BudgetContextType = {
+    budgets: Budget[];
+    expenses: Expense[];
+    getBudgetExpenses: (budgetId: string) => Expense[];
+    addExpense: (budgetId: string, amount: number, description: string) => void;
+    addBudget: (name: string, max: number) => void;
+    deleteBudget: (id: string) => void;
+    deleteExpense: (id: string) => void;
+};
+
+const BudgetContext = createContext<BudgetContextType>({} as BudgetContextType);
 
 export const BudgetsProvider = ({
     children,
@@ -87,3 +94,8 @@ export const BudgetsProvider = ({
         </BudgetContext.Provider>
     );
 };
+// for removing fast refresh error
+// eslint-disable-next-line react-refresh/only-export-components
+export function useBudgets(){
+  return useContext(BudgetContext);
+}
