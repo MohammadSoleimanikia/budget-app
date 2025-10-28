@@ -17,7 +17,6 @@ function App() {
             </header>
 
             <main className="grid gap-5 sm:grid-cols-1 items-start  md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 ">
-                <BudgetCard name="تفریح" amount={1000000} max={3000000} />
                 {budgets.map((budget) => {
                     const amount = getBudgetExpenses(budget.id).reduce(
                         (total, expense) => {
