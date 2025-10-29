@@ -8,60 +8,74 @@ import {
 import { Input } from "@/components/ui/input";
 import Button from "./ui/Button";
 import { useBudgets } from "@/contexts/BudgetContexts";
-import { useRef, useState } from "react";
+import { useState } from "react";
+import num2persian from "num2persian";
+
 interface AddExpenseFormProps {
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    defaultBudgetId?: string;
 }
 
-export default function AddExpenseForm({ setOpen }: AddExpenseFormProps) {
+export default function AddExpenseForm({
+    setOpen,
+    defaultBudgetId,
+}: AddExpenseFormProps) {
     const { addExpense, budgets } = useBudgets();
-    const [selectBudget, setSelectBudget] = useState("");
-
-    // use useRef to get value of inputs
-    const descriptionRef = useRef<HTMLInputElement>(null);
-    const amountRef = useRef<HTMLInputElement>(null);
+    const [selectBudget, setSelectBudget] = useState(defaultBudgetId || "");
+    const [description, setDescription] = useState("");
+    const [amount, setAmount] = useState("");
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        if (!descriptionRef.current || !amountRef.current || !selectBudget)
-            return;
-        addExpense(
-            selectBudget,
-            parseInt(amountRef.current.value),
-            descriptionRef.current.value
-        );
+        if (!description || !amount || !selectBudget) return;
+
+        addExpense(selectBudget, parseInt(amount), description);
         setOpen(false);
     }
+
     return (
-        <form onSubmit={handleSubmit} className=" mt-3 flex flex-col gap-5">
-            <div className="flex flex-col gap-3 ">
+        <form onSubmit={handleSubmit} className="mt-3 flex flex-col gap-5">
+            <div className="flex flex-col gap-3">
                 <Input
-                    ref={descriptionRef}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
                     required
-                    placeholder="توضیحات هزینه "
+                    placeholder="توضیحات هزینه"
                 />
+
                 <Input
-                    ref={amountRef}
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
                     required
                     type="number"
                     min={0}
                     placeholder="مقدار هزینه"
                 />
-                <Select onValueChange={setSelectBudget} required>
+
+                {amount && (
+                    <h2 className="text-right text-sm text-gray-500">
+                        {num2persian(Number(amount))} تومان
+                    </h2>
+                )}
+
+                <Select
+                    defaultValue={defaultBudgetId}
+                    onValueChange={setSelectBudget}
+                    required
+                >
                     <SelectTrigger className="w-[180px]">
                         <SelectValue placeholder="بودجه" />
                     </SelectTrigger>
                     <SelectContent>
-                        {budgets.map((budget) => {
-                            return (
-                                <SelectItem key={budget.id} value={budget.id}>
-                                    {budget.name}
-                                </SelectItem>
-                            );
-                        })}
+                        {budgets.map((budget) => (
+                            <SelectItem key={budget.id} value={budget.id}>
+                                {budget.name}
+                            </SelectItem>
+                        ))}
                     </SelectContent>
                 </Select>
             </div>
+
             <Button type="submit" className="self-start">
                 افزودن
             </Button>
