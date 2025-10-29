@@ -70,6 +70,9 @@ export const BudgetsProvider = ({
         setBudgets((prevBudget) => {
             return prevBudget.filter((budget) => budget.id !== id);
         });
+        setExpenses((prevExpenses) => {
+            return prevExpenses.filter((expense) => expense.budgetId !== id);
+        });
     }
 
     function deleteExpense(id: string) {

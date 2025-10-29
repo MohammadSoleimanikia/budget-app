@@ -6,7 +6,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
- 
+
 import { useState } from "react";
 import AddExpenseForm from "./AddExpenseForm";
 import { clsx } from "clsx";

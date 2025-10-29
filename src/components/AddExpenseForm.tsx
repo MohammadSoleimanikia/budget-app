@@ -75,8 +75,17 @@ export default function AddExpenseForm({
                     </SelectContent>
                 </Select>
             </div>
-
-            <Button type="submit" className="self-start">
+            {budgets.length == 0 && (
+                <h2 className="text-red-500 text-right">
+                    لطفا ابتدا بودجه ای را اضافه کنید
+                </h2>
+            )}
+            <Button
+                disabled={budgets.length == 0}
+                variant={budgets.length == 0 ? "disabled" : "primary"}
+                type="submit"
+                className="self-start"
+            >
                 افزودن
             </Button>
         </form>

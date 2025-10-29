@@ -5,14 +5,13 @@ import AddExpenseModal from "./components/AddExpenseModal";
 import TotalCard from "./components/TotalCard";
 
 function App() {
-    
     const { budgets, getBudgetExpenses } = useBudgets();
     return (
         <div className="container px-3 sm:px-0 mx-auto border-t border-t-red-700">
             <header className="flex justify-between my-10">
                 <h1 className="font-bold text-3xl">مدیریت بودجه</h1>
                 <div className=" flex gap-3">
-                    <AddExpenseModal variant="secondary"/>
+                    <AddExpenseModal  variant="secondary" />
                     <AddBudgetModal />
                 </div>
             </header>
@@ -25,17 +24,18 @@ function App() {
                         },
                         0
                     );
-                    return (<>
-                        <BudgetCard
-                            amount={amount}
-                            defaultValue={budget.id}
-                            name={budget.name}
-                            max={budget.max}
-                        />
-                    </>
+                    return (
+                        <>
+                            <BudgetCard
+                                amount={amount}
+                                budgetId={budget.id}
+                                name={budget.name}
+                                max={budget.max}
+                            />
+                        </>
                     );
                 })}
-                <TotalCard/>
+                {budgets.length !== 0 && <TotalCard />}
             </main>
         </div>
     );
