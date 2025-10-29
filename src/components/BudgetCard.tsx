@@ -1,12 +1,14 @@
 import { currencyFormatter } from "../utils";
+import AddExpenseModal from "./AddExpenseModal";
 import ProgressBar from "./ProgressBar";
 import Button from "./ui/Button";
 type BudgetCardProps = {
+    defaultValue:string;
     name: string;
     amount: number;
     max: number;
 };
-export default function BudgetCard({ name, amount, max }: BudgetCardProps) {
+export default function BudgetCard({ defaultValue,name, amount, max }: BudgetCardProps) {
     const progress= (amount/max)*100;
     return (
         <div className="border hover:shadow-lg transition-shadow duration-200 border-gray-300 rounded-xl p-5 flex flex-col gap-4">
@@ -24,9 +26,7 @@ export default function BudgetCard({ name, amount, max }: BudgetCardProps) {
             {/* progress bar */}
             <ProgressBar progress={progress}/>
             <div className="flex justify-center gap-3 ">
-                <Button variant="outline">
-                    افزودن هزینه{" "}
-                </Button>
+                    <AddExpenseModal defaultBudget={defaultValue}  variant="outline"/>
                 <Button variant="outlineSecondary">
                     نمایش هزینه ها{" "}
                 </Button>
