@@ -9,7 +9,7 @@ import {
 import { useBudgets } from "@/contexts/BudgetContexts";
 import Button from "./ui/Button";
 export default function ShowExpensesModal({ budgetId }: { budgetId: string }) {
-    const { getBudgetExpenses, budgets,deleteBudget } = useBudgets();
+    const { getBudgetExpenses, budgets,deleteBudget,deleteExpense } = useBudgets();
     const budgetExpenses = getBudgetExpenses(budgetId);
     const budget = budgets.find((budget) => budget.id === budgetId);
     return (
@@ -25,9 +25,18 @@ export default function ShowExpensesModal({ budgetId }: { budgetId: string }) {
                             مشاهده هزینه های {budget?.name}
                         </DialogTitle>
                     </div>
-                    <DialogDescription>
+                    <DialogDescription className="flex flex-col gap-2 text-base">
                         {budgetExpenses.map((expense) => {
-                            return <h1>{expense.description}</h1>;
+                            return <div className="flex bg items-baseline rounded bg-gray-100 p-1 px-2 justify-between" key={expense.id}>
+                                <div className="flex gap-2 items-baseline">
+                                    <Button variant="remove" onClick={()=>deleteExpense(expense.id)}> x </Button>
+                                    <p>{expense.amount}</p>
+                                </div>
+                                <h2>
+                                    {expense.description}
+                                </h2>
+
+                            </div>;
                         })}
                     </DialogDescription>
                 </DialogHeader>
