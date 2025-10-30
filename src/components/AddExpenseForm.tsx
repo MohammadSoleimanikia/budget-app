@@ -48,7 +48,7 @@ export default function AddExpenseForm({
                     onChange={(e) => setAmount(e.target.value)}
                     required
                     type="number"
-                    min={0}
+                    min={1}
                     placeholder="مقدار هزینه"
                 />
 

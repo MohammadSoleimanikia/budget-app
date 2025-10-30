@@ -72,7 +72,7 @@ export default function AddBudgetModal({ variant = "primary" }: ModalProp) {
                                     onChange={(e) => setMax(e.target.value)}
                                     required
                                     type="number"
-                                    min={0}
+                                    min={1}
                                     placeholder="حداکثر بودجه"
                                 />
 
