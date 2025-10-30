@@ -20,7 +20,7 @@ export default function ShowExpensesModal({ budgetId }: { budgetId: string }) {
             </DialogTrigger>
             <DialogContent className="bg-white">
                 <DialogHeader>
-                    <div className="flex justify-end items-baseline gap-2 mt-3 sm:mt-0">
+                    <div className="flex justify-end items-baseline gap-2 mt-5 sm:mt-0">
                         <Button
                             variant="remove"
                             onClick={() => {
