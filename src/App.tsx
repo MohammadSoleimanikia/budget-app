@@ -31,6 +31,7 @@ function App() {
                                 budgetId={budget.id}
                                 name={budget.name}
                                 max={budget.max}
+                                key={budget.id}
                             />
                         </>
                     );
