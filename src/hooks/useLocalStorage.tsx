@@ -2,21 +2,32 @@ import { useEffect, useState } from "react";
 
 export default function useLocalStorage<T>(
     key: string,
-    defaultValue: T | (() => T)
+    defaultValue: T | (() => T),
 ) {
     const [value, setValue] = useState<T>(() => {
-        const jsonValue = localStorage.getItem(key);
-        // if there is a value it use that else use default value 
-        if (jsonValue != null) return JSON.parse(jsonValue);
-        if (typeof defaultValue === "function") {
-            return (defaultValue as () => T)();
-        } else {
-            return defaultValue;
+        try {
+            const jsonValue = localStorage.getItem(key);
+
+            if (jsonValue !== null) {
+                return JSON.parse(jsonValue) as T;
+            }
+
+            return typeof defaultValue === "function"
+                ? (defaultValue as () => T)()
+                : defaultValue;
+        } catch {
+            return typeof defaultValue === "function"
+                ? (defaultValue as () => T)()
+                : defaultValue;
         }
     });
 
     useEffect(() => {
-        localStorage.setItem(key, JSON.stringify(value));
+        try {
+            localStorage.setItem(key, JSON.stringify(value));
+        } catch {
+            console.error(`Failed to save ${key} to localStorage`);
+        }
     }, [key, value]);
 
     return [value, setValue] as const;
