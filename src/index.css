@@ -2,7 +2,67 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
+@import "tailwindcss";
+@font-face {
+    font-family: "Vazir";
+    src: url("./assets/fonts/Vazir-Thin.woff2") format("woff2");
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
 
+@font-face {
+    font-family: "Vazir";
+    src: url("./assets/fonts/Vazir-Light.woff2") format("woff2");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Vazir";
+    src: url("./assets/fonts/Vazir.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Vazir";
+    src: url("./assets/fonts/Vazir-Medium.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Vazir";
+    src: url("./assets/fonts/Vazir-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Vazir with Persian/Farsi digits */
+@font-face {
+    font-family: "VazirFD";
+    src: url("./assets/fonts/Vazir-FD.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Yekan";
+    src: url("./assets/fonts/yekan-regular.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    font-family: vazir, sans-serif;
+}
 @layer base {
     button {
         @apply border rounded-md py-1 px-2 hover:cursor-pointer transition duration-200;
