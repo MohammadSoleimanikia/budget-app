@@ -1,4 +1,4 @@
-import { useBudgets } from "@/contexts/BudgetContexts";
+import { useBudgets } from "@/hooks/useBudgets"; 
 import ProgressBar from "./ProgressBar";
 import { currencyFormatter } from "@/utils";
 export default function TotalCard() {

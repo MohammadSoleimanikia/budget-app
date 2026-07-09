@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import Button from "./ui/Button";
-import { useBudgets } from "@/contexts/BudgetContexts";
+import { useBudgets } from "@/hooks/useBudgets";
 import { useState } from "react";
 import num2persian from "num2persian";
 

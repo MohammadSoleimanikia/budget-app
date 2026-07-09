@@ -6,7 +6,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { useBudgets } from "@/contexts/BudgetContexts";
+import { useBudgets } from "@/hooks/useBudgets";
 import Button from "./ui/Button";
 export default function ShowExpensesModal({ budgetId }: { budgetId: string }) {
     const { getBudgetExpenses, budgets, deleteBudget, deleteExpense } =
