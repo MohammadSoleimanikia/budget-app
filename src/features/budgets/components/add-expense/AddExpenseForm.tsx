@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import Button from "@/components/ui/Button";
-import { useBudgets } from "@/features/budgets/context/useBudgets";
+import { useBudgetStore } from "@/features/budgets/store/budgetStore";
 import { useState } from "react";
 import num2persian from "num2persian";
 
@@ -20,7 +20,8 @@ export default function AddExpenseForm({
     setOpen,
     defaultBudgetId,
 }: AddExpenseFormProps) {
-    const { addExpense, budgets } = useBudgets();
+    const  addExpense = useBudgetStore((state)=>state.addExpense);
+    const budgets=useBudgetStore((state)=>state.budgets);
     const [selectBudget, setSelectBudget] = useState(defaultBudgetId || "");
     const [description, setDescription] = useState("");
     const [amount, setAmount] = useState("");

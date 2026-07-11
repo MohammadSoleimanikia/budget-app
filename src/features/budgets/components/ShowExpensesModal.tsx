@@ -6,11 +6,15 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { useBudgets } from "@/features/budgets/context/useBudgets";
+import { useBudgetStore } from "@/features/budgets/store/budgetStore";
 import Button from "@/components/ui/Button";
 export default function ShowExpensesModal({ budgetId }: { budgetId: string }) {
-    const { getBudgetExpenses, budgets, deleteBudget, deleteExpense } =
-        useBudgets();
+    const budgets = useBudgetStore((state) => state.budgets);
+    const getBudgetExpenses = useBudgetStore(
+        (state) => state.getBudgetExpenses,
+    );
+    const deleteBudget = useBudgetStore((state) => state.deleteBudget);
+    const deleteExpense = useBudgetStore((state) => state.deleteExpense);
     const budgetExpenses = getBudgetExpenses(budgetId);
     const budget = budgets.find((budget) => budget.id === budgetId);
     return (

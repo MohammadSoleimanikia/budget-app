@@ -9,13 +9,13 @@ import {
 import { Input } from "@/components/ui/input";
 import Button from "@/components/ui/Button";
 import { useState } from "react";
-import { useBudgets } from "@/features/budgets/context/useBudgets";
+import { useBudgetStore } from '@/features/budgets/store/budgetStore'
 import num2persian from "num2persian";
 import { Wallet } from "lucide-react";
 
 export default function AddBudgetModal() {
     const [open, setOpen] = useState(false);
-    const { addBudget } = useBudgets();
+    const  addBudget  = useBudgetStore((state)=>state.addBudget);
 
     // controlled states
     const [name, setName] = useState("");
