@@ -2,16 +2,24 @@ import { v4 as uuidV4 } from "uuid";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-import type { Budget, Expense } from "@/features/budgets/types/budget.types";
+import type {
+    Budget,
+    CreateBudgetInput,
+    Expense,
+} from "@/features/budgets/types/budget.types";
 
 type BudgetStore = {
     budgets: Budget[];
     expenses: Expense[];
 
-    addBudget: (name: string, max: number) => void;
+    addBudget: (data: CreateBudgetInput) => void;
     deleteBudget: (id: string) => void;
 
-    addExpense: (budgetId: string, amount: number, description: string) => void;
+    addExpense: (
+        budgetId: string,
+        amount: number,
+        description: string,
+    ) => void;
     deleteExpense: (id: string) => void;
 
     getBudgetExpenses: (budgetId: string) => Expense[];
@@ -26,15 +34,16 @@ export const useBudgetStore = create<BudgetStore>()(
             budgets: [],
             expenses: [],
 
-            addBudget: (name, max) => {
-                const trimmedName = name.trim();
+            addBudget: (data) => {
+                const trimmedName = data.name.trim();
 
-                if (!trimmedName || max <= 0) return;
+                if (!trimmedName || data.max <= 0) return;
 
                 const isDuplicate = get().budgets.some(
                     (budget) =>
                         budget.name.toLowerCase() ===
-                            trimmedName.toLowerCase() && !budget.isArchived,
+                            trimmedName.toLowerCase() &&
+                        !budget.isArchived,
                 );
 
                 if (isDuplicate) return;
@@ -44,7 +53,9 @@ export const useBudgetStore = create<BudgetStore>()(
                 const newBudget: Budget = {
                     id: uuidV4(),
                     name: trimmedName,
-                    max,
+                    max: data.max,
+                    iconKey: data.iconKey,
+                    tone: data.tone,
                     createdAt: now,
                     updatedAt: now,
                     isArchived: false,
@@ -57,7 +68,9 @@ export const useBudgetStore = create<BudgetStore>()(
 
             deleteBudget: (id) => {
                 set((state) => ({
-                    budgets: state.budgets.filter((budget) => budget.id !== id),
+                    budgets: state.budgets.filter(
+                        (budget) => budget.id !== id,
+                    ),
                     expenses: state.expenses.filter(
                         (expense) => expense.budgetId !== id,
                     ),
@@ -109,7 +122,6 @@ export const useBudgetStore = create<BudgetStore>()(
                 });
             },
         }),
-
         {
             name: "budget-flow-storage",
             storage: createJSONStorage(() => localStorage),
