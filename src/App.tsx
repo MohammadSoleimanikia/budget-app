@@ -1,28 +1,52 @@
 import AddBudgetModal from "./components/AddBudgetModal";
 import BudgetCard from "./components/BudgetCard";
 import { useBudgets } from "./hooks/useBudgets";
-import AddExpenseModal from "./components/AddExpenseModal";
 import TotalCard from "./components/TotalCard";
+import Header from "./components/header/Header";
+import StatsCard from "./components/stats/StatsCard";
+import BudgetUsage from "./components/budgetUsage/BudgetUsage";
+import { CalendarCheck, PiggyBank, TrendingDown } from "lucide-react";
+import RecentExpenses from "./components/recentExpenses/RecentExpenses";
 
 function App() {
     const { budgets, getBudgetExpenses } = useBudgets();
-
     return (
-        <div className="container mx-auto min-h-screen px-3 py-8 sm:px-0">
-            <header className="mb-10 flex flex-col gap-4 border-b pb-6 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                    <h1 className="text-3xl font-bold">مدیریت بودجه</h1>
-                    <p className="mt-2 text-sm text-gray-500">
-                        بودجه‌ها و هزینه‌های خود را ساده‌تر مدیریت کنید.
-                    </p>
+        <div
+            className="container rounded-3xl 
+                        mt-5 w-11/12 mx-auto min-h-screen px-3 py-8 
+                        bg-linear-to-br md:bg-none from-[#EFF4FE] to-white  "
+        >
+            <Header />
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 my-3">
+                <StatsCard
+                    title="کل بودجه"
+                    value={`${(25000).toLocaleString("fa-IR")} تومان`}
+                    description="در این ماه"
+                />
+                <StatsCard
+                    icon={<PiggyBank />}
+                    tone="green"
+                    title="باقی مانده"
+                    value={`${(25000).toLocaleString("fa-IR")} تومان`}
+                    description="از کل بودجه"
+                />
+                <StatsCard
+                    icon={<CalendarCheck />}
+                    tone="green"
+                    title="بودجه های فعال"
+                    value={8}
+                    description="بودجه در حال اجرا"
+                />
+                <StatsCard
+                    icon={<TrendingDown />}
+                    tone="red"
+                    title="کل هزینه"
+                    value={`${(25000).toLocaleString("fa-IR")} تومان`}
+                    description="در این ماه"
+                />
             </div>
-
-                <div className="flex gap-3">
-                    <AddExpenseModal variant="secondary" />
-                    <AddBudgetModal />
-                </div>
-            </header>
-
+            <BudgetUsage />
+            <RecentExpenses />
             {budgets.length === 0 ? (
                 <div className="rounded-xl border border-dashed border-gray-300 p-10 text-center">
                     <h2 className="text-xl font-semibold">
