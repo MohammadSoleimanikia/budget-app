@@ -6,8 +6,8 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { useBudgets } from "@/hooks/useBudgets";
-import Button from "./ui/Button";
+import { useBudgets } from "@/features/budgets/context/useBudgets";
+import Button from "@/components/ui/Button";
 export default function ShowExpensesModal({ budgetId }: { budgetId: string }) {
     const { getBudgetExpenses, budgets, deleteBudget, deleteExpense } =
         useBudgets();
@@ -24,7 +24,12 @@ export default function ShowExpensesModal({ budgetId }: { budgetId: string }) {
                         <Button
                             variant="remove"
                             onClick={() => {
-                                if (confirm("آیا مطمئنی میخوای بودجه رو پاک کنی ؟")) deleteBudget(budgetId);
+                                if (
+                                    confirm(
+                                        "آیا مطمئنی میخوای بودجه رو پاک کنی ؟",
+                                    )
+                                )
+                                    deleteBudget(budgetId);
                             }}
                         >
                             حذف

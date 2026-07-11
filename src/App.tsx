@@ -1,15 +1,11 @@
-import AddBudgetModal from "./components/AddBudgetModal";
-import BudgetCard from "./components/BudgetCard";
-import { useBudgets } from "./hooks/useBudgets";
-import TotalCard from "./components/TotalCard";
-import Header from "./components/header/Header";
-import StatsCard from "./components/stats/StatsCard";
-import BudgetUsage from "./components/budgetUsage/BudgetUsage";
+import Header from "./features/budgets/components/header/Header";
+import StatsCard from "./features/budgets/components/stats/StatsCard";
+import BudgetUsage from "./features/budgets/components/budget-usage/BudgetUsage";
 import { CalendarCheck, PiggyBank, TrendingDown } from "lucide-react";
-import RecentExpenses from "./components/recentExpenses/RecentExpenses";
+import RecentExpenses from "./features/budgets/components/recent-expenses/RecentExpenses";
+import MyBudgets from "./features/budgets/components/my-budgets/MyBudgets";
 
 function App() {
-    const { budgets, getBudgetExpenses } = useBudgets();
     return (
         <div
             className="container rounded-3xl 
@@ -47,40 +43,7 @@ function App() {
             </div>
             <BudgetUsage />
             <RecentExpenses />
-            {budgets.length === 0 ? (
-                <div className="rounded-xl border border-dashed border-gray-300 p-10 text-center">
-                    <h2 className="text-xl font-semibold">
-                        هنوز بودجه‌ای اضافه نشده
-                    </h2>
-                    <p className="mt-2 text-gray-500">
-                        برای شروع، اولین بودجه خود را ایجاد کنید.
-                    </p>
-                    <div className="mt-5">
-                        <AddBudgetModal />
-                    </div>
-                </div>
-            ) : (
-                <main className="grid items-start gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-                    {budgets.map((budget) => {
-                        const amount = getBudgetExpenses(budget.id).reduce(
-                            (total, expense) => total + expense.amount,
-                            0,
-                        );
-
-                        return (
-                            <BudgetCard
-                                key={budget.id}
-                                amount={amount}
-                                budgetId={budget.id}
-                                name={budget.name}
-                                max={budget.max}
-                            />
-                        );
-                    })}
-
-                    <TotalCard />
-                </main>
-            )}
+            <MyBudgets />
         </div>
     );
 }

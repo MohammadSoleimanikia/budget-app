@@ -1,4 +1,4 @@
-import { BudgetContext } from "@/contexts/BudgetContexts";
+import { BudgetContext } from "@/features/budgets/context/BudgetContexts";
 import { useContext } from "react";
 
 export function useBudgets() {

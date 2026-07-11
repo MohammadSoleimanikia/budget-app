@@ -7,11 +7,11 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import Button from "./ui/Button";
+import Button from "@/components/ui/Button";
 import { useState } from "react";
-import { useBudgets } from "@/hooks/useBudgets";
+import { useBudgets } from "@/features/budgets/context/useBudgets";
 import num2persian from "num2persian";
-import {  Wallet } from "lucide-react";
+import { Wallet } from "lucide-react";
 
 export default function AddBudgetModal() {
     const [open, setOpen] = useState(false);
@@ -32,9 +32,8 @@ export default function AddBudgetModal() {
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger
-                className="flex text-nowrap justify-center items-center gap-1 w-1/2 py-1 md:py-2 bg-[#0F60F6] text-white text-sm">
-                <Wallet strokeWidth={1.5}/>
+            <DialogTrigger className="flex text-nowrap justify-center items-center gap-1 w-1/2 py-1 md:py-2 bg-[#0F60F6] text-white text-sm">
+                <Wallet strokeWidth={1.5} />
                 افزودن بودجه
             </DialogTrigger>
 

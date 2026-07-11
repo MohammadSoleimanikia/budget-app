@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { CalendarDays, Trash2 } from "lucide-react";
 
-import Button from "../ui/Button";
+import Button from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 
 type ExpenseTone = "red" | "green" | "blue" | "orange" | "purple" | "slate";

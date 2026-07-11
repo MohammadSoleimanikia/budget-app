@@ -1,8 +1,8 @@
 import type React from "react";
-import {  useCallback,  useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { v4 as uuidV4 } from "uuid";
 import useLocalStorage from "@/hooks/useLocalStorage";
-import type { Budget, Expense } from "@/types/budget.types";
+import type { Budget, Expense } from "@/features/budgets/types/budget.types";
 import { BudgetContext } from "./BudgetContexts";
 export function BudgetsProvider({ children }: { children: React.ReactNode }) {
     const [budgets, setBudgets] = useLocalStorage<Budget[]>("budgets", []);

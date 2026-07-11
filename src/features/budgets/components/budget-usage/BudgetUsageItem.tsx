@@ -66,7 +66,7 @@ export default function BudgetUsageItem({
             </div>
 
             <div className="flex-1">
-                <ProgressBar  progress={progress} />
+                <ProgressBar progress={progress} />
             </div>
 
             <div
