@@ -11,13 +11,9 @@ import Button from "./ui/Button";
 import { useState } from "react";
 import { useBudgets } from "@/hooks/useBudgets";
 import num2persian from "num2persian";
-import { clsx } from "clsx";
+import {  Wallet } from "lucide-react";
 
-type ModalProp = {
-    variant?: "primary" | "secondary" | "outline" | "outlineSecondary";
-};
-
-export default function AddBudgetModal({ variant = "primary" }: ModalProp) {
+export default function AddBudgetModal() {
     const [open, setOpen] = useState(false);
     const { addBudget } = useBudgets();
 
@@ -37,17 +33,8 @@ export default function AddBudgetModal({ variant = "primary" }: ModalProp) {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger
-                className={clsx(
-                    variant === "primary"
-                        ? "bg-blue-500 text-white hover:bg-blue-600"
-                        : variant === "secondary"
-                          ? "border border-blue-600 text-blue-700 hover:bg-blue-500 hover:text-white"
-                          : variant === "outline"
-                            ? "text-blue-500 border border-blue-500 hover:text-white hover:bg-blue-500"
-                            : "text-gray-500 border border-gray-400 hover:bg-gray-500 hover:text-white",
-                    "px-3 py-2 rounded-lg transition-all",
-                )}
-            >
+                className="flex text-nowrap justify-center items-center gap-1 w-1/2 py-1 md:py-2 bg-[#0F60F6] text-white text-sm">
+                <Wallet strokeWidth={1.5}/>
                 افزودن بودجه
             </DialogTrigger>
 
