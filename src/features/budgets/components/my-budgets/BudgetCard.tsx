@@ -1,7 +1,5 @@
-import { Eye } from "lucide-react";
 import { useMemo } from "react";
 
-import Button from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import ConfirmDeleteButton from "@/components/ui/ConfirmDeleteButton";
 import ProgressBar from "@/features/budgets/components/ProgressBar";
@@ -13,6 +11,7 @@ import {
 import { useBudgetStore } from "@/features/budgets/store/budgetStore";
 import type { Budget } from "@/features/budgets/types/budget.types";
 import { toast } from "sonner";
+import ShowExpensesModal from "../ShowExpensesModal";
 
 type BudgetCardProps = {
     budget: Budget;
@@ -155,14 +154,7 @@ export default function BudgetCard({ budget }: BudgetCardProps) {
 
             {/* actions */}
             <div className="grid grid-cols-2 gap-2">
-                <Button
-                    type="button"
-                    variant="outline"
-                    className="flex items-center gap-1.5"
-                >
-                    <Eye className="size-4" />
-                    مشاهده
-                </Button>
+                 <ShowExpensesModal budget={budget} />
 
                 <AddExpenseModal
                     defaultBudget={budget.id}
