@@ -42,7 +42,7 @@ export default function BudgetUsage() {
                 <div className="flex items-center gap-2">
                     <TrendingUp className="text-blue-600" />
                     <h2 className="font-semibold text-slate-900">
-                        بودجه های با مصرف بیشتر
+                        بودجه ها به ترتیب بیشترین استفاده
                     </h2>
                 </div>
 
