@@ -1,5 +1,7 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import num2persian from "num2persian";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
 import Button from "@/components/ui/Button";
 import { Input } from "@/components/ui/input";
@@ -12,6 +14,10 @@ import {
 } from "@/components/ui/select";
 
 import { getBudgetIconOption } from "@/features/budgets/constants/budgetIcons";
+import {
+    createExpenseSchema,
+    type CreateExpenseFormValues,
+} from "@/features/budgets/schema/expenses.schema";
 import { useBudgetStore } from "@/features/budgets/store/budgetStore";
 
 type AddExpenseFormProps = {
@@ -30,58 +36,55 @@ export default function AddExpenseForm({
         return budgets.filter((budget) => budget.isArchived !== true);
     }, [budgets]);
 
-    const [selectedBudgetId, setSelectedBudgetId] = useState(
-        defaultBudgetId ?? "",
+    const isDefaultBudgetValid = activeBudgets.some(
+        (budget) => budget.id === defaultBudgetId,
     );
-    const [description, setDescription] = useState("");
-    const [amount, setAmount] = useState("");
-    const [error, setError] = useState("");
+
+    const defaultSelectedBudgetId = isDefaultBudgetValid ? defaultBudgetId : "";
+
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        watch,
+        reset,
+        formState: { errors },
+    } = useForm<CreateExpenseFormValues>({
+        resolver: zodResolver(createExpenseSchema),
+        defaultValues: {
+            description: "",
+            amount: "",
+            budgetId: defaultSelectedBudgetId,
+        },
+    });
+
+    const amount = watch("amount");
+    const selectedBudgetId = watch("budgetId");
 
     const selectedBudget = activeBudgets.find(
         (budget) => budget.id === selectedBudgetId,
     );
 
     function resetForm() {
-        setSelectedBudgetId(defaultBudgetId ?? "");
-        setDescription("");
-        setAmount("");
-        setError("");
+        reset({
+            description: "",
+            amount: "",
+            budgetId: defaultSelectedBudgetId,
+        });
     }
 
-    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-
-        const trimmedDescription = description.trim();
-        const expenseAmount = Number(amount);
-
-        if (activeBudgets.length === 0) {
-            setError("برای ثبت هزینه، ابتدا باید یک بودجه ایجاد کنید.");
-            return;
-        }
-
-        if (!selectedBudgetId) {
-            setError("لطفاً یک بودجه انتخاب کنید.");
-            return;
-        }
-
-        if (!trimmedDescription) {
-            setError("توضیحات هزینه را وارد کنید.");
-            return;
-        }
-
-        if (!expenseAmount || expenseAmount <= 0) {
-            setError("مبلغ هزینه باید بیشتر از صفر باشد.");
-            return;
-        }
-
-        addExpense(selectedBudgetId, expenseAmount, trimmedDescription);
+    function onSubmit(data: CreateExpenseFormValues) {
+        addExpense(data.budgetId, Number(data.amount), data.description);
 
         resetForm();
         setOpen(false);
     }
 
     return (
-        <form onSubmit={handleSubmit} className="mt-3 flex flex-col gap-5">
+        <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="mt-3 flex flex-col gap-5"
+        >
             <div className="space-y-2">
                 <label
                     htmlFor="expense-description"
@@ -92,14 +95,16 @@ export default function AddExpenseForm({
 
                 <Input
                     id="expense-description"
-                    value={description}
-                    onChange={(event) => {
-                        setDescription(event.target.value);
-                        setError("");
-                    }}
-                    required
+                    {...register("description")}
                     placeholder="مثلاً خرید مواد غذایی"
+                    aria-invalid={!!errors.description}
                 />
+
+                {errors.description && (
+                    <p className="text-xs text-red-600">
+                        {errors.description.message}
+                    </p>
+                )}
             </div>
 
             <div className="space-y-2">
@@ -112,16 +117,18 @@ export default function AddExpenseForm({
 
                 <Input
                     id="expense-amount"
-                    value={amount}
-                    onChange={(event) => {
-                        setAmount(event.target.value);
-                        setError("");
-                    }}
-                    required
+                    {...register("amount")}
                     type="number"
                     min={1}
                     placeholder="مثلاً ۴۵۰۰۰۰"
+                    aria-invalid={!!errors.amount}
                 />
+
+                {errors.amount && (
+                    <p className="text-xs text-red-600">
+                        {errors.amount.message}
+                    </p>
+                )}
 
                 {amount && Number(amount) > 0 && (
                     <p className="rounded-xl bg-slate-50 px-3 py-2 text-sm text-slate-500">
@@ -138,12 +145,17 @@ export default function AddExpenseForm({
                 <Select
                     value={selectedBudgetId}
                     onValueChange={(value) => {
-                        setSelectedBudgetId(value);
-                        setError("");
+                        setValue("budgetId", value, {
+                            shouldValidate: true,
+                            shouldDirty: true,
+                        });
                     }}
                     disabled={activeBudgets.length === 0}
                 >
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger
+                        className="w-full"
+                        aria-invalid={!!errors.budgetId}
+                    >
                         <SelectValue placeholder="بودجه موردنظر را انتخاب کنید" />
                     </SelectTrigger>
 
@@ -166,6 +178,12 @@ export default function AddExpenseForm({
                     </SelectContent>
                 </Select>
 
+                {errors.budgetId && (
+                    <p className="text-xs text-red-600">
+                        {errors.budgetId.message}
+                    </p>
+                )}
+
                 {selectedBudget && (
                     <p className="text-xs text-slate-500">
                         سقف این بودجه:{" "}
@@ -176,13 +194,7 @@ export default function AddExpenseForm({
 
             {activeBudgets.length === 0 && (
                 <p className="rounded-xl bg-red-50 px-3 py-2 text-sm text-red-600">
-                    لطفاً ابتدا یک بودجه ایجاد کنید.
-                </p>
-            )}
-
-            {error && (
-                <p className="rounded-xl bg-red-50 px-3 py-2 text-sm text-red-600">
-                    {error}
+                    برای ثبت هزینه، ابتدا باید یک بودجه ایجاد کنید.
                 </p>
             )}
 
