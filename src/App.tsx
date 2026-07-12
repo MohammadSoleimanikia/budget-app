@@ -4,6 +4,7 @@ import RecentExpenses from "./features/budgets/components/recent-expenses/Recent
 import MyBudgets from "./features/budgets/components/my-budgets/MyBudgets";
 import BudgetStats from "./features/budgets/components/stats/BudgetStats";
 import { Toaster } from "sonner";
+import BudgetReports from "./features/budgets/components/reports/BudgetReports";
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
             <Header />
             <BudgetStats/>
             <BudgetUsage />
+            <BudgetReports/>
             <RecentExpenses />
             <MyBudgets />
             <Toaster position="top-center" richColors closeButton />
