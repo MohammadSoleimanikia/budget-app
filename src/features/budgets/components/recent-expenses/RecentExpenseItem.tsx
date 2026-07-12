@@ -3,8 +3,7 @@ import { CalendarDays, Trash2 } from "lucide-react";
 
 import Button from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
-
-type ExpenseTone = "red" | "green" | "blue" | "orange" | "purple" | "slate";
+import type { BudgetTone } from "@/features/budgets/constants/budgetIcons";
 
 const toneClasses = {
     red: {
@@ -38,7 +37,7 @@ const toneClasses = {
         amount: "text-slate-800",
     },
 } satisfies Record<
-    ExpenseTone,
+    BudgetTone,
     {
         icon: string;
         badge: string;
@@ -52,7 +51,7 @@ type RecentExpenseItemProps = {
     date: string;
     budgetName: string;
     amount: number;
-    tone?: ExpenseTone;
+    tone?: BudgetTone;
     onDelete?: () => void;
 };
 
@@ -67,7 +66,6 @@ export default function RecentExpenseItem({
 }: RecentExpenseItemProps) {
     return (
         <article className="group flex flex-col items-stretch justify-between gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 hover:shadow-md md:flex-row md:items-center">
-            {/* right side / expense info */}
             <div className="flex min-w-0 flex-1 items-center gap-3">
                 <div
                     className={cn(
@@ -104,7 +102,6 @@ export default function RecentExpenseItem({
                 </div>
             </div>
 
-            {/* left side / amount + action */}
             <div className="flex items-center justify-between gap-4 border-t border-slate-100 pt-3 md:min-w-52 md:justify-end md:border-t-0 md:pt-0">
                 <div className="flex shrink-0 items-baseline gap-2 text-left">
                     <p className="text-xs text-slate-500">تومان</p>
