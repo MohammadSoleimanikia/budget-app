@@ -29,7 +29,7 @@ export default function AddExpenseModal({
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger
                 className={cn(
-                    "w-1/2 flex items-center justify-center gap-1 text-nowrap rounded-md bg-[#1CA158] px-3 py-2 text-sm text-white transition hover:bg-emerald-700",
+                    " flex items-center justify-center gap-1 text-nowrap rounded-md bg-[#1CA158] px-3 py-2 text-sm text-white transition hover:bg-emerald-700",
                     triggerClassName,
                 )}
             >

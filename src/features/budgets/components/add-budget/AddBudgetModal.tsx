@@ -99,7 +99,7 @@ export default function AddBudgetModal() {
 
     return (
         <Dialog open={open} onOpenChange={handleOpenChange}>
-            <DialogTrigger className="flex w-1/2 items-center justify-center gap-1 text-nowrap bg-[#0F60F6] py-1 text-sm text-white md:py-2">
+            <DialogTrigger className="flex  items-center justify-center gap-1 text-nowrap bg-[#0F60F6] py-1 text-sm text-white md:py-2">
                 <Wallet strokeWidth={1.5} />
                 افزودن بودجه
             </DialogTrigger>
