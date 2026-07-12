@@ -8,7 +8,7 @@ import {
 import { useBudgetStore } from "@/features/budgets/store/budgetStore";
 
 import RecentExpenseItem from "./RecentExpenseItem";
-
+import { toast } from "sonner";
 const MAX_RECENT_EXPENSES = 5;
 
 function formatExpenseDate(date: string) {
@@ -80,7 +80,16 @@ export default function RecentExpenses() {
                             amount={expense.amount}
                             icon={expense.icon}
                             tone={expense.tone}
-                            onDelete={() => deleteExpense(expense.id)}
+                            onDelete={() => {
+                                const result = deleteExpense(expense.id);
+
+                                if (!result.success) {
+                                    toast.error(result.message);
+                                    return;
+                                }
+
+                                toast.success(result.message);
+                            }}
                         />
                     ))}
                 </div>

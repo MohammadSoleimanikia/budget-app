@@ -21,9 +21,11 @@ import {
 } from "@/features/budgets/constants/budgetIcons";
 import {
     createBudgetSchema,
-    type CreateBudgetFormValues} from "@/features/budgets/schema/budget.schema"
+    type CreateBudgetFormValues,
+} from "@/features/budgets/schema/budget.schema";
 import { useBudgetStore } from "@/features/budgets/store/budgetStore";
 import BudgetIconPicker from "./BudgetIconPicker";
+import { toast } from "sonner";
 
 export default function AddBudgetModal() {
     const [open, setOpen] = useState(false);
@@ -72,12 +74,19 @@ export default function AddBudgetModal() {
     }
 
     function onSubmit(data: CreateBudgetFormValues) {
-        addBudget({
+        const result = addBudget({
             name: data.name,
             max: Number(data.max),
             iconKey: data.iconKey,
             tone: selectedIcon?.tone ?? "blue",
         });
+
+        if (!result.success) {
+            toast.error(result.message);
+            return;
+        }
+
+        toast.success(result.message);
 
         reset({
             name: "",

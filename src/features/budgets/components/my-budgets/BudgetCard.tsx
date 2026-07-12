@@ -1,4 +1,4 @@
-import { Eye} from "lucide-react";
+import { Eye } from "lucide-react";
 import { useMemo } from "react";
 
 import Button from "@/components/ui/Button";
@@ -12,6 +12,7 @@ import {
 } from "@/features/budgets/constants/budgetIcons";
 import { useBudgetStore } from "@/features/budgets/store/budgetStore";
 import type { Budget } from "@/features/budgets/types/budget.types";
+import { toast } from "sonner";
 
 type BudgetCardProps = {
     budget: Budget;
@@ -74,6 +75,16 @@ export default function BudgetCard({ budget }: BudgetCardProps) {
 
     const isOverBudget = spent > budget.max;
 
+    function handleDeleteBudget() {
+        const result = deleteBudget(budget.id);
+
+        if (!result.success) {
+            toast.error(result.message);
+            return;
+        }
+
+        toast.success(result.message);
+    }
     return (
         <article className="group space-y-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md">
             {/* header */}
@@ -109,7 +120,7 @@ export default function BudgetCard({ budget }: BudgetCardProps) {
                 <ConfirmDeleteButton
                     title="حذف بودجه"
                     description={`با حذف بودجه «${budget.name}»، تمام هزینه‌های مربوط به آن هم حذف می‌شوند. این عملیات قابل بازگشت نیست.`}
-                    onConfirm={() => deleteBudget(budget.id)}
+                    onConfirm={handleDeleteBudget}
                     triggerLabel=""
                     triggerClassName="size-9 rounded-lg p-0"
                     actionLabel="حذف بودجه"

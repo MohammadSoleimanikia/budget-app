@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import num2persian from "num2persian";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-
+import { toast } from "sonner";
 import Button from "@/components/ui/Button";
 import { Input } from "@/components/ui/input";
 import {
@@ -74,7 +74,18 @@ export default function AddExpenseForm({
     }
 
     function onSubmit(data: CreateExpenseFormValues) {
-        addExpense(data.budgetId, Number(data.amount), data.description);
+        const result = addExpense(
+            data.budgetId,
+            Number(data.amount),
+            data.description,
+        );
+
+        if (!result.success) {
+            toast.error(result.message);
+            return;
+        }
+
+        toast.success(result.message);
 
         resetForm();
         setOpen(false);
