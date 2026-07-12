@@ -1,9 +1,9 @@
-import { Eye, Trash2 } from "lucide-react";
+import { Eye} from "lucide-react";
 import { useMemo } from "react";
 
 import Button from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
-
+import ConfirmDeleteButton from "@/components/ui/ConfirmDeleteButton";
 import ProgressBar from "@/features/budgets/components/ProgressBar";
 import AddExpenseModal from "@/features/budgets/components/add-expense/AddExpenseModal";
 import {
@@ -74,16 +74,6 @@ export default function BudgetCard({ budget }: BudgetCardProps) {
 
     const isOverBudget = spent > budget.max;
 
-    function handleDeleteBudget() {
-        const shouldDelete = confirm(
-            `آیا مطمئنی می‌خواهی بودجه «${budget.name}» را حذف کنی؟`,
-        );
-
-        if (shouldDelete) {
-            deleteBudget(budget.id);
-        }
-    }
-
     return (
         <article className="group space-y-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md">
             {/* header */}
@@ -110,19 +100,20 @@ export default function BudgetCard({ budget }: BudgetCardProps) {
                         </h3>
 
                         <p className="mt-1 text-xs text-slate-500">
-                            سقف بودجه: {budget.max.toLocaleString("fa-IR")} تومان
+                            سقف بودجه: {budget.max.toLocaleString("fa-IR")}{" "}
+                            تومان
                         </p>
                     </div>
                 </div>
 
-                <button
-                    type="button"
-                    onClick={handleDeleteBudget}
-                    className="rounded-lg border border-red-100 p-1.5 text-red-500 transition hover:bg-red-50"
-                    aria-label="حذف بودجه"
-                >
-                    <Trash2 className="size-4" />
-                </button>
+                <ConfirmDeleteButton
+                    title="حذف بودجه"
+                    description={`با حذف بودجه «${budget.name}»، تمام هزینه‌های مربوط به آن هم حذف می‌شوند. این عملیات قابل بازگشت نیست.`}
+                    onConfirm={() => deleteBudget(budget.id)}
+                    triggerLabel=""
+                    triggerClassName="size-9 rounded-lg p-0"
+                    actionLabel="حذف بودجه"
+                />
             </div>
 
             {/* progress */}

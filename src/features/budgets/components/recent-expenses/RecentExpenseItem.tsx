@@ -1,7 +1,8 @@
 import type { ReactNode } from "react";
-import { CalendarDays, Trash2 } from "lucide-react";
+import { CalendarDays } from "lucide-react";
 
-import Button from "@/components/ui/Button";
+import ConfirmDeleteButton from "@/components/ui/ConfirmDeleteButton";
+
 import { cn } from "@/lib/utils";
 import type { BudgetTone } from "@/features/budgets/constants/budgetIcons";
 
@@ -117,15 +118,14 @@ export default function RecentExpenseItem({
                 </div>
 
                 {onDelete && (
-                    <Button
-                        type="button"
-                        variant="remove"
-                        onClick={onDelete}
-                        className="flex shrink-0 items-center gap-1.5 px-2.5 py-1.5 text-xs"
-                    >
-                        <Trash2 className="size-4" />
-                        حذف
-                    </Button>
+                    <ConfirmDeleteButton
+                        title="حذف هزینه"
+                        description={`هزینه «${expenseName}» از بودجه «${budgetName}» حذف می‌شود. این عملیات قابل بازگشت نیست.`}
+                        onConfirm={onDelete}
+                        triggerLabel="حذف"
+                        triggerClassName="shrink-0 px-2.5 py-1.5 text-xs"
+                        actionLabel="حذف هزینه"
+                    />
                 )}
             </div>
         </article>
