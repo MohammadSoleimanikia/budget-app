@@ -1,7 +1,7 @@
 import { v4 as uuidV4 } from "uuid";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-
+import { createSampleBudgetData } from "../data/sampleBudgetData";
 import type {
     Budget,
     CreateBudgetInput,
@@ -31,12 +31,13 @@ type BudgetStore = {
 
     resetBudgetStore: () => void;
 };
+const sampleData = createSampleBudgetData();
 
 export const useBudgetStore = create<BudgetStore>()(
     persist(
         (set, get) => ({
-            budgets: [],
-            expenses: [],
+            budgets: sampleData.budgets,
+            expenses: sampleData.expenses,
 
             addBudget: (data) => {
                 const trimmedName = data.name.trim();
